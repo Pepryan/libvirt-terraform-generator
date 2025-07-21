@@ -1,0 +1,45 @@
+# Konfigurasi Multiple VM untuk KVM Terraform
+global:
+  # Storage pools
+  image_pool: "isos"      # Pool untuk cloud images
+  vm_pool: "vms"           # Pool untuk VM disks
+  
+  # Default cloud image
+  cloud_image: "noble-server-cloudimg-amd64.img"
+  
+  # Network defaults
+  network_name: "net-192.168.100"   # atau custom network name
+  domain: "local"
+  
+  # User defaults
+  ssh_user: "ryan"
+  ssh_password: "ryan"
+  ssh_password_auth: false
+  timezone: "Asia/Jakarta"
+  
+  # SSH public key (akan dicari otomatis jika kosong)
+  ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7eaEEfQoCVScXqllBk+D3XVeVU2rTZlrCDVTCtbt6M1z1gRKlfDKU4WVMUlRkUBi26MeqvUtR/489ArAuJ1VQTByVnkz42YdlzqPfJwuy4ydjHmu2Msx1J9HBQmK3NywjIIoD1Oq9/67tYLNP1llBUSyooOQSANKC9f7gFYPyyT0VIWCqHYEzUfR/n8htvuG1m+n6sDwe5QFVCWRcIRR+7Lgp5Jv5QtovqEmjVk1moerg6RX8GIGaObEYh0OWbMiEOO1pelTmPVWB8w5y3xl+evWp/C4mOnDws/qzpltV08/bWYODZ8ctY5hzpIHUxNNnYHDUU8R2wHeDET996ZqJsQ/L6lL11wGyeRlGjU4LKIAenY4nUMRZVnRfKgrBIMLRZeKFcUWijMYQZpzzD4L70ncKCWqBy+aKkFyLFGef1NQPkMqvKMwjBvQLbEeznrkGUC2LLN3hOD8hJyAqFRc3TVK50MbeyiOVDbqLvdT9mtS5BMmtzfLzJt02QrHId8E= ryan@thinkx13"
+  
+  # Default packages untuk semua VM
+  packages:
+  #  - qemu-guest-agent
+  #  - curl
+  #  - wget
+  #  - vim
+  #  - htop
+  #  - net-tools
+  #  - git
+
+# Definisi VM
+vms:
+  - name: "n8n-server"
+    cpu: 2
+    ram_gb: 4                # Input dalam GB, otomatis convert ke MB
+    disk_gb: 20             # Input dalam GB
+    network_type: "static"   # dhcp atau static
+    ip: "192.168.100.88"
+    gateway: "192.168.100.1"
+    netmask: "24"
+    dns: ["8.8.8.8", "8.8.4.4"]
+    #packages:               # Package tambahan selain global
+    #commands:               # Custom commands
