@@ -16,6 +16,7 @@ Sebuah tool powerful dan user-friendly untuk mengotomatisasi pembuatan Virtual M
 - ✅ **Deployment Isolation**: Setiap deployment dibuat dalam folder terpisah
 - ✅ **Error Handling**: Validasi konfigurasi dan error handling yang robust
 - ✅ **Overwrite Protection**: Perlindungan terhadap deployment folder yang sudah ada
+- ✅ **Example Template Generation**: Generate template konfigurasi YAML dengan mudah
 
 ## 📋 Prerequisites
 

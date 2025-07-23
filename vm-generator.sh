@@ -227,7 +227,7 @@ get_vm_data() {
         VM_RAM_MB=$((VM_RAM_GB * 1024))
         
         # Convert GB to bytes untuk disk (dalam Terraform libvirt)
-        VM_DISK_BYTES=$((VM_DISK_GB * 1000000000))
+        VM_DISK_BYTES=$((VM_DISK_GB * 1073741824))
     else
         print_error "Simple parser tidak support multiple VM. Gunakan yq atau mode interactive."
         return 1
@@ -628,14 +628,10 @@ EOF
 
     # Add SSH help
     for ((i=0; i<vm_count; i++)); do
-        get_vm_data "$yaml_file" "$i"
-        
-        if [ "$VM_NAME" = "null" ]; then
-            continue
-        fi
-        
-        echo "\t@echo \\\"  ssh-${VM_NAME}  - SSH to ${VM_NAME}\\\"" >> "${DEPLOYMENT_DIR}/Makefile"
-    done
+            get_vm_data "$yaml_file" "$i"
+            [ "$VM_NAME" = "null" ] && continue
+            printf '\t@echo "  ssh-%s  - SSH to %s"\n' "$VM_NAME" "$VM_NAME"
+        done >> "${DEPLOYMENT_DIR}/Makefile"
 
     print_success "Generated Makefile with ${vm_count} VM commands"
 }
@@ -742,7 +738,7 @@ resource "libvirt_volume" "${VM_NAME}_disk" {
   pool               = "${VM_POOL}"
   base_volume_name   = "${CLOUD_IMAGE}"
   base_volume_pool   = "${IMAGE_POOL}"
-  size               = $((DISK_GB * 1000000000))  # ${DISK_GB}GB
+  size               = $((DISK_GB * 1073741824))  # ${DISK_GB}GB
   format             = "qcow2"
 }
 
@@ -1043,3 +1039,4 @@ main() {
 
 # Run main function
 main "$@"
+
