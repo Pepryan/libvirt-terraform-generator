@@ -778,7 +778,11 @@ EOF
     fi
     
     cat >> "${DEPLOYMENT_DIR}/main.tf" << EOF
-
+  
+  cpu {
+    mode = "host-passthrough"
+  }
+  
   disk {
     volume_id = libvirt_volume.${VM_NAME}_disk.id
   }
@@ -787,6 +791,12 @@ EOF
     type        = "pty"
     target_type = "serial"
     target_port = "0"
+  }
+
+  console {
+        type        = "pty"
+        target_port = "1"
+        target_type = "virtio"
   }
 
   graphics {
